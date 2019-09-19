@@ -1,0 +1,129 @@
+﻿@model IEnumerable<Bip.IngeschrevenPersoon>
+
+@{
+    ViewData["Title"] = "IngeschrevenPersoon Resultaat";
+
+    Object ReturnProp(String name, Object obj)
+    {
+        foreach (String part in name.Split(' '))
+        {
+            if (obj == null) { return null; }
+
+            Type type = obj.GetType();
+            var info = type.GetProperty(part);
+            if (info == null) { return null; }
+
+            obj = info.GetValue(obj, null);
+        }
+
+        return obj;
+    }
+
+    IEnumerable<object> ReturnIEnumerable(object obj)
+    {
+        return ((IEnumerable<object>)obj).Cast<object>().ToList();
+    }
+
+}
+
+<h2>IngeschrevenPersonen Resultaat</h2>
+
+@using (Html.BeginForm("Zoek", "IngeschrevenPersonen", FormMethod.Post))
+{
+    <form>
+        <div>
+
+            <input type="text" placeholder="apiVersion" id="search-fld" name="apiVersionZoek">
+            <input type="text" placeholder="expand" id="search-fld" name="expandZoek">
+            <input type="text" placeholder="fields" id="search-fld" name="fieldsZoek">
+            <input type="text" placeholder="bsn" id="search-fld" name="bsnZoek">
+            <input type="datetime-local" placeholder="geboortedatum" id="search-fld" name="geboorteDatumZoek">
+            <input type="text" placeholder="geboorteplaats" id="search-fld" name="geboorteplaatsZoek">
+            <input type="number" placeholder="geslachtsaanduiding" id="search-fld" name="geslachtsaanduidingZoek">
+            <input type="checkbox" title="inclOverleden" placeholder="inclusiefoverledenpersonen" id="search-fld" name="inclusiefoverledenpersonenZoek">
+            <input type="text" placeholder="geslachtsnaam" id="search-fld" name="geslachtsnaamZoek">
+            <input type="text" placeholder="voornamen" id="search-fld" name="voornamenZoek">
+            <input type="text" placeholder="gemeentevaninschrijving" id="search-fld" name="gemeentevaninschrijvingZoek">
+            <input type="text" placeholder="huisletter" id="search-fld" name="huisletterZoek">
+            <input type="number" placeholder="huisnummer" id="search-fld" name="huisnummerZoek">
+            <input type="text" placeholder="huisnummertoevoeging" id="search-fld" name="huisnummertoevoegingZoek">
+            <input type="text" placeholder="identificatiecodenummeraanduiding" id="search-fld" name="identificatiecodenummeraanduidingZoek">
+            <input type="text" placeholder="naamopenbareruimte" id="search-fld" name="naamopenbareruimteZoek">
+            <input type="text" placeholder="postcode" id="search-fld" name="postcodeZoek">
+            <input type="text" placeholder="voorvoegsel" id="search-fld" name="voorvoegselZoek">
+
+            @*<input type="text" placeholder="geslachtsnaam" id="search-fld" name="geslachtsNaamZoek">*@
+
+            <button type="submit">
+                <i class="fa fa-search">Zoek</i>
+            </button>
+
+        </div>
+    </form>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayName("FieldName")</th>
+            <th>@Html.DisplayName("FieldValue")</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var prop in typeof(Bip.IngeschrevenPersoon).GetProperties().ToList())
+        {
+            <tr>
+                <td style="font-weight:600">@Html.DisplayFor(m => prop.Name)</td>
+                <td>@prop.GetValue(Model.First())</td>
+            </tr>
+
+            if ((!prop.PropertyType.Namespace.StartsWith("System") || prop.PropertyType.Namespace.Contains("Collection")) && !prop.PropertyType.Name.Contains("IDictionary"))
+            {
+
+
+                @foreach (var d in prop.PropertyType.GetProperties().ToList())
+                {
+                    var propObj = @ReturnProp(prop.Name, Model.First());
+                    Object propVal = null;
+
+                    if (prop.PropertyType.Name.Contains("Collection"))
+                    {
+                        var foo = @prop.GetValue(Model.First());
+                        if (foo != null)
+                        {
+                            var bar = ReturnIEnumerable(foo);
+
+                            foreach (var b in bar)
+                            {
+                                //var realType = Type.GetType(b.GetType().FullName + "," + System.Reflection.Assembly.GetAssembly(b.GetType()));
+                                //var fooBar = Convert.ChangeType(b, realType);
+                                //var fooBar = b; // Convert.ChangeType(b, b.GetType());
+
+                                foreach (var subTypeProp in b.GetType().GetProperties().ToList())
+                                {
+                                    <tr>
+                                        <td style="color:lightslategray; font-size:80%"><i>@Html.DisplayFor(m => subTypeProp.Name)</i></td>
+                                        <td style="color:lightslategray; font-size:80%">@subTypeProp.GetValue(b)</td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    }
+
+                    else if (propObj != null)
+                    {
+                        propVal = propObj.GetType().GetProperty(d.Name).GetValue(propObj, null);
+                    }
+
+                    <tr>
+                        <td><i>@Html.DisplayFor(m => d.Name)</i></td>
+                        <td>@propVal</td>
+
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>

@@ -1,0 +1,95 @@
+﻿@model IEnumerable<Bip.Verblijfplaatshistorie>
+
+@{
+    ViewData["Title"] = "Verblijfplaatshistorie";
+
+    Object ReturnProp(String name, Object obj)
+    {
+        foreach (String part in name.Split(' '))
+        {
+            if (obj == null) { return null; }
+
+            Type type = obj.GetType();
+            var info = type.GetProperty(part);
+            if (info == null) { return null; }
+
+            obj = info.GetValue(obj, null);
+        }
+
+        return obj;
+    }
+
+    IEnumerable<object> ReturnIEnumerable(object obj)
+    {
+        return ((IEnumerable<object>)obj).Cast<object>().ToList();
+    }
+
+}
+
+<h2>Verblijfplaatshistorie</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayName("FieldName")</th>
+            <th>@Html.DisplayName("FieldValue")</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var prop in typeof(Bip.VerblijfplaatshistorieHal).GetProperties().ToList())
+        {
+            <tr>
+                <td style="font-weight:600">@Html.DisplayFor(m => prop.Name)</td>
+                <td>@prop.GetValue(Model.First())</td>
+            </tr>
+
+            if ((!prop.PropertyType.Namespace.StartsWith("System") || prop.PropertyType.Namespace.Contains("Collection")) && !prop.PropertyType.Name.Contains("IDictionary"))
+            {
+
+
+                @foreach (var d in prop.PropertyType.GetProperties().ToList())
+                {
+                    var propObj = @ReturnProp(prop.Name, Model.First());
+                    Object propVal = null;
+
+                    if (prop.PropertyType.Name.Contains("Collection"))
+                    {
+                        var foo = @prop.GetValue(Model.First());
+                        if (foo != null)
+                        {
+                            var bar = ReturnIEnumerable(foo);
+
+                            foreach (var b in bar)
+                            {
+                                //var realType = Type.GetType(b.GetType().FullName + "," + System.Reflection.Assembly.GetAssembly(b.GetType()));
+                                //var fooBar = Convert.ChangeType(b, realType);
+                                //var fooBar = b; // Convert.ChangeType(b, b.GetType());
+
+                                foreach (var subTypeProp in b.GetType().GetProperties().ToList())
+                                {
+                                    <tr>
+                                        <td style="color:lightslategray; font-size:80%"><i>@Html.DisplayFor(m => subTypeProp.Name)</i></td>
+                                        <td style="color:lightslategray; font-size:80%">@subTypeProp.GetValue(b)</td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    }
+
+                    else if (propObj != null)
+                    {
+                        propVal = propObj.GetType().GetProperty(d.Name).GetValue(propObj, null);
+                    }
+
+                    <tr>
+                        <td><i>@Html.DisplayFor(m => d.Name)</i></td>
+                        <td>@propVal</td>
+
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>
