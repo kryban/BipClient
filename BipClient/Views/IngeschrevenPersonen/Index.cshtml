@@ -28,20 +28,11 @@
 
 
 <h2>IngeschrevenPersonen</h2>
-@*<form>
-    @{
-        var requestparams = Model.GetType().GetMethod("IngeschrevePersoon");
-    }
-
-    <input type="text" class="zoekveld" id="zoek-bsn" value="bsn" />
-    <input type="button" value="request" onclick="GetZoekWaarden()" />
-</form*@
 
 @using (Html.BeginForm("Zoek", "IngeschrevenPersonen", FormMethod.Post))
 {
     <form>
         <div>
-
             <input type="text" placeholder="apiVersion" id="search-fld" name="apiVersionZoek">
             <input type="text" placeholder="expand" id="search-fld" name="expandZoek">
             <input type="text" placeholder="fields" id="search-fld" name="fieldsZoek">

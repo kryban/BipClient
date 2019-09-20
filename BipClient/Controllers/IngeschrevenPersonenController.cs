@@ -87,14 +87,6 @@ namespace Bip.Controllers
         {
             IEnumerable<IngeschrevenPersoon> ingeschrevenPersonen;
 
-            //IngeschrevenPersoonHalCollectie response = client.IngeschrevenNatuurlijkPersonenAsync(data.api_version,
-            //    data.expand, data.fields, data.burgerservicenummer, data.geboorte__datum, data.geboorte__plaats, data.geslachtsaanduiding,
-            //    data.inclusiefoverledenpersonen, data.naam__geslachtsnaam, data.naam__voornamen, data.verblijfplaats__gemeentevaninschrijving,
-            //    data.verblijfplaats__huisletter, data.verblijfplaats__huisnummer, data.verblijfplaats__huisnummertoevoeging,
-            //    data.verblijfplaats__identificatiecodenummeraanduiding, data.verblijfplaats__naamopenbareruimte, data.verblijfplaats__postcode,
-            //    data.naam__voorvoegsel).Result;
-
-
             IngeschrevenPersoonHalCollectie response = client.IngeschrevenNatuurlijkPersonenAsync(
                 null // api_version 
                 , null // expand
@@ -123,7 +115,7 @@ namespace Bip.Controllers
             return View(ingeschrevenPersonen);
 
             /*
-                         IngeschrevenPersoonHalCollectie response = client.IngeschrevenNatuurlijkPersonenAsync(
+             IngeschrevenPersoonHalCollectie response = client.IngeschrevenNatuurlijkPersonenAsync(
                   null // api_version 
                 , null // expand
                 , null // fields
