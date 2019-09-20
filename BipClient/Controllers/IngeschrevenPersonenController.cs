@@ -100,11 +100,11 @@ namespace Bip.Controllers
                 , null // voornamen
                 , gemeentevaninschrijvingZoek // gemeentevaninschrijving
                 , null // huisletter
-                , null // huisnummer
+                , huisnummerZoek // huisnummer
                 , null // huisnummertoevoeging
                 , null // identificatienummeraanduiding
                 , null // naamopennbareruimte
-                , null // postcode
+                , postcodeZoek // postcode
                 , null // voorvoegsel
                 ).Result;
 
@@ -136,27 +136,6 @@ namespace Bip.Controllers
                 , null // voorvoegsel
                 ).Result;
              */
-
-            //Zoekdata data = new Zoekdata();
-            //data.api_version = apiVersionZoek;
-            //data.expand = expandZoek;
-            //data.fields = fieldsZoek;
-            //data.bsn = bsnZoek;
-            //data.geboorte__datum = geboorteDatumZoek;
-            //data.geboorte__plaats = geboorteplaatsZoek;
-            //data.geslachtsaanduiding = null;// (Geslacht_enum)geslachtsaanduidingZoek ;
-            //data.inclusiefoverledenpersonen = null;//inclusiefoverledenpersonenZoek;
-            //data.naam__geslachtsnaam = geslachtsnaamZoek;
-            //data.naam__voornamen = voornamenZoek;
-            //data.verblijfplaats__gemeentevaninschrijving = gemeentevaninschrijvingZoek;
-            //data.verblijfplaats__huisletter = huisletterZoek;
-            //data.verblijfplaats__huisnummer = huisnummerZoek;
-            //data.verblijfplaats__huisnummertoevoeging = huisnummertoevoegingZoek;
-            //data.verblijfplaats__identificatiecodenummeraanduiding = identificatiecodenummeraanduidingZoek;
-            //data.verblijfplaats__naamopenbareruimte = naamopenbareruimteZoek;
-            //data.verblijfplaats__postcode = postcodeZoek;
-            //data.naam__voorvoegsel = voorvoegselZoek;
-
         }
     }
 }
