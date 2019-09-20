@@ -98,7 +98,7 @@ namespace Bip.Controllers
                 , null // inclusiefoverledenpersonen
                 , geslachtsnaamZoek // geslachtsnaam
                 , null // voornamen
-                , null // gemeentevaninschrijving
+                , gemeentevaninschrijvingZoek // gemeentevaninschrijving
                 , null // huisletter
                 , null // huisnummer
                 , null // huisnummertoevoeging
