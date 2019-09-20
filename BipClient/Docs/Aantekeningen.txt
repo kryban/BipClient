@@ -1,1 +1,11 @@
-﻿
+﻿Haal BRP Bevragen
+https://github.com/VNG-Realisatie/Haal-Centraal-BRP-bevragen
+
+NSwag specificatie
+https://petstore.swagger.io/?url=https://raw.githubusercontent.com/VNG-Realisatie/Bevragingen-ingeschreven-personen/master/api-specificatie/Bevraging-Ingeschreven-Persoon/openapi.yaml#/ingeschrevenpersonen/ingeschrevenNatuurlijkPersonen
+
+GBA-V Testomgevingen
+https://www.rvig.nl/actueel/nieuws/2018/09/21/nieuwe-versie-testdatabase-proefomgevingen-gba-v-en-bv-bsn
+
+GBA-V Rubrieken
+https://www.rvig.nl/binaries/rvig/documenten/richtlijnen/2018/09/20/testdataset-persoonslijsten-proefomgevingen-gba-v/20190524_Testset+persoonslijsten+proefomgeving+GBA-V.ods
