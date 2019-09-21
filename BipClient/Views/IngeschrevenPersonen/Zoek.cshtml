@@ -124,11 +124,12 @@
             <th>""s</th>
         </tr>
     </thead>
-    <tbody>
-        <br />
+    @foreach (var mod in Model)
+    {
 
-        @foreach (var mod in Model)
-        {
+        <tbody>
+            <br />
+
             @foreach (var prop in typeof(Bip.IngeschrevenPersoon).GetProperties().ToList())
             {
                 <tr>
@@ -175,6 +176,7 @@
                     }
                 }
             }
-        }
-    </tbody>
-</table>
+
+        </tbody>
+    }
+    </table>

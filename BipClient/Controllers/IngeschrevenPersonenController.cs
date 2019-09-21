@@ -87,12 +87,14 @@ namespace Bip.Controllers
         {
             IEnumerable<IngeschrevenPersoon> ingeschrevenPersonen;
 
+            //DateTimeOffset tmp = (DateTimeOffset)null; //geboorteDatumZoek.Year == 1 ? geboorteDatumZoek : default;
+
             IngeschrevenPersoonHalCollectie response = client.IngeschrevenNatuurlijkPersonenAsync(
                 null // api_version 
                 , null // expand
                 , null // fields
                 , bsnZoek // burgersversivenummer
-                , (geboorteDatumZoek.Year == 1 ? default : geboorteDatumZoek)// geboortedatum
+                , null //(geboorteDatumZoek.Year == 1 ? default : geboorteDatumZoek)// geboortedatum
                 , null // geboorteplaats
                 , null // geslachtsaanduiding
                 , null // inclusiefoverledenpersonen
