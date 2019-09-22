@@ -87,14 +87,15 @@ namespace Bip.Controllers
         {
             IEnumerable<IngeschrevenPersoon> ingeschrevenPersonen;
 
-            //DateTimeOffset tmp = (DateTimeOffset)null; //geboorteDatumZoek.Year == 1 ? geboorteDatumZoek : default;
 
+            try
+            {
             IngeschrevenPersoonHalCollectie response = client.IngeschrevenNatuurlijkPersonenAsync(
                 null // api_version 
                 , null // expand
                 , null // fields
                 , bsnZoek // burgersversivenummer
-                , null //(geboorteDatumZoek.Year == 1 ? default : geboorteDatumZoek)// geboortedatum
+                , geboorteDatumZoek.Year == 1 ? (DateTimeOffset?)null : geboorteDatumZoek //(geboorteDatumZoek.Year == 1 ? default : geboorteDatumZoek)// geboortedatum
                 , null // geboorteplaats
                 , null // geslachtsaanduiding
                 , null // inclusiefoverledenpersonen
@@ -110,11 +111,18 @@ namespace Bip.Controllers
                 , null // voorvoegsel
                 ).Result;
 
-            ingeschrevenPersonen = response._embedded.Ingeschrevenpersonen;
+                ingeschrevenPersonen = response._embedded.Ingeschrevenpersonen;
 
-            //ingeschrevenPersonen = new List<IngeschrevenPersoon>() { DummyIngeschrevenPersoon };
+                //ingeschrevenPersonen = new List<IngeschrevenPersoon>() { DummyIngeschrevenPersoon };
 
-            return View(ingeschrevenPersonen);
+                return View(ingeschrevenPersonen);
+
+            }
+            catch (Exception e)
+            {
+                ViewBag.ResponseError = e.InnerException;
+                return View();
+            }
 
             /*
              IngeschrevenPersoonHalCollectie response = client.IngeschrevenNatuurlijkPersonenAsync(

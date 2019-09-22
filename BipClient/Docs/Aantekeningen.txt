@@ -9,3 +9,9 @@ https://www.rvig.nl/actueel/nieuws/2018/09/21/nieuwe-versie-testdatabase-proefom
 
 GBA-V Rubrieken
 https://www.rvig.nl/binaries/rvig/documenten/richtlijnen/2016/10/14/logisch-ontwerp-gba-versie-3-10/LO+GBA+3.10.pdf
+
+//////////////////////////////////////////////////////////
+Zoek op postcode en huisnr met 2 resultaten:
+2712AD 13
+
+

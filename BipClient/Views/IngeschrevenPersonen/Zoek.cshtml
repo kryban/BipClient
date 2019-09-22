@@ -77,7 +77,7 @@
             $(this).hide();
         });
         $('.header').on('click', function () {
-            $(this).next().slideToggle("slow");
+            $(this).next().slideToggle(100);
         });
     });
 
@@ -96,7 +96,6 @@
             <input onfocus="colorRelevant(this.id)" class="searchBox" type="date" placeholder="geboortedatum" id="geboorteDatumZoek" name="geboorteDatumZoek">
             <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="geboorteplaats" id="geboorteplaatsZoek" name="geboorteplaatsZoek">
             <input onfocus="colorRelevant(this.id)" class="searchBox" type="number" placeholder="geslachtsaanduiding" id="geslachtsaanduidingZoek" name="geslachtsaanduidingZoek">
-            <input onfocus="colorRelevant(this.id)" class="searchBox" type="checkbox" title="inclOverleden" placeholder="inclusiefoverledenpersonen" id="inclusiefoverledenpersonenZoek" name="inclusiefoverledenpersonenZoek">
             <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="geslachtsnaam" id="geslachtsnaamZoek" name="geslachtsnaamZoek">
             <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="voornamen" id="voornamenZoek" name="voornamenZoek">
             <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="gemeentevaninschrijving(code)" id="gemeentevaninschrijvingZoek" name="gemeentevaninschrijvingZoek">
@@ -107,13 +106,9 @@
             <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="naamopenbareruimte" id="naamopenbareruimteZoek" name="naamopenbareruimteZoek">
             <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="postcode" id="postcodeZoek" name="postcodeZoek">
             <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="voorvoegsel" id="voorvoegselZoek" name="voorvoegselZoek">
+            <input onfocus="colorRelevant(this.id)" class="searchBox" type="checkbox" title="inclOverleden" placeholder="inclusiefoverledenpersonen" id="inclusiefoverledenpersonenZoek" name="inclusiefoverledenpersonenZoek">
 
-            @*<input type="text" placeholder="geslachtsnaam" id="search-fld" name="geslachtsNaamZoek">*@
-
-            <button type="submit">
-                <i class="fa fa-search">Zoek</i>
-            </button>
-
+            <button type="submit">Zoek</button>
         </div>
     </form>
 }
@@ -121,62 +116,68 @@
 <table class="table">
     <thead>
         <tr>
-            <th>""s</th>
+            <th>@Html.ValidationMessage("Oei")</th>
+            @if (ViewBag.ResponseError != null)
+            {
+                @ViewBag.ResponseError;
+            }
         </tr>
     </thead>
-    @foreach (var mod in Model)
+    @if (ViewBag.ResponseError == null)
     {
+        @foreach (var modelItem in Model)
+        {
+            <tbody>
+                <br />
 
-        <tbody>
-            <br />
-
-            @foreach (var prop in typeof(Bip.IngeschrevenPersoon).GetProperties().ToList())
-            {
-                <tr>
-                    <td style="font-weight:600">@Html.DisplayFor(m => prop.Name)</td>
-                    <td>@prop.GetValue(mod)</td>
-                </tr>
-
-                if ((!prop.PropertyType.Namespace.StartsWith("System") || prop.PropertyType.Namespace.Contains("Collection")) && !prop.PropertyType.Name.Contains("IDictionary"))
+                @foreach (var modelItemProperty in typeof(Bip.IngeschrevenPersoon).GetProperties().ToList())
                 {
-                    @foreach (var d in prop.PropertyType.GetProperties().ToList())
+                    <tr>
+                        <td style="font-weight:600">@Html.DisplayFor(m => modelItemProperty.Name)</td>
+                        <td>@modelItemProperty.GetValue(modelItem)</td>
+                    </tr>
+
+                    if ((!modelItemProperty.PropertyType.Namespace.StartsWith("System") || modelItemProperty.PropertyType.Namespace.Contains("Collection")) && !modelItemProperty.PropertyType.Name.Contains("IDictionary"))
                     {
-                        var propObj = @ReturnProp(prop.Name, mod);
-                        Object propVal = null;
-
-                        if (prop.PropertyType.Name.Contains("Collection"))
+                        @foreach (var subProperty in modelItemProperty.PropertyType.GetProperties().ToList())
                         {
-                            var foo = @prop.GetValue(mod);
-                            if (foo != null)
-                            {
-                                var bar = ReturnIEnumerable(foo);
+                            var subPropertyObject = @ReturnProp(modelItemProperty.Name, modelItem);
+                            Object subPropertyValue = null;
 
-                                foreach (var b in bar)
+                            if (modelItemProperty.PropertyType.Name.Contains("Collection"))
+                            {
+                                var collectionInSubproperty = modelItemProperty.GetValue(modelItem);
+                                if (collectionInSubproperty != null)
                                 {
-                                    foreach (var subTypeProp in b.GetType().GetProperties().ToList())
+                                    var collection = ReturnIEnumerable(collectionInSubproperty);
+
+                                    foreach (var subPropertyCollectionItem in collection)
                                     {
-                                        <tr>
-                                            <td style="color:lightslategray; font-size:80%"><i>@Html.DisplayFor(m => subTypeProp.Name)</i></td>
-                                            <td style="color:lightslategray; font-size:80%">@subTypeProp.GetValue(b)</td>
-                                        </tr>
+                                        foreach (var propertyOfSubPropertyCollectionItem in subPropertyCollectionItem.GetType().GetProperties().ToList())
+                                        {
+                                            <tr>
+                                                <td style="color:lightslategray; font-size:80%"><i>@Html.DisplayFor(m => propertyOfSubPropertyCollectionItem.Name)</i></td>
+                                                <td style="color:lightslategray; font-size:80%">@propertyOfSubPropertyCollectionItem.GetValue(subPropertyCollectionItem)</td>
+                                            </tr>
+                                        }
                                     }
                                 }
                             }
-                        }
 
-                        else if (propObj != null)
-                        {
-                            propVal = propObj.GetType().GetProperty(d.Name).GetValue(propObj, null);
-                        }
+                            else if (subPropertyObject != null)
+                            {
+                                subPropertyValue = subPropertyObject.GetType().GetProperty(subProperty.Name).GetValue(subPropertyObject, null);
+                            }
 
-                        <tr>
-                            <td><i>@Html.DisplayFor(m => d.Name)</i></td>
-                            <td>@propVal</td>
-                        </tr>
+                            <tr>
+                                <td><i>@Html.DisplayFor(m => subProperty.Name)</i></td>
+                                <td>@subPropertyValue</td>
+                            </tr>
+                        }
                     }
                 }
-            }
 
-        </tbody>
+            </tbody>
+        }
     }
-    </table>
+</table>
