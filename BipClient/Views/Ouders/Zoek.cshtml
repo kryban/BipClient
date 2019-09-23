@@ -76,64 +76,73 @@
 <div>
     Het ophalen de ouder-gegevens van een Ingeschreven Persoon zoals die op de persoonslijst voorkomen. Er vind geen sortering plaats.
 </div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.ValidationMessage("Oei")</th>
+            <th style="color:red">
+                @if (ViewBag.ResponseError != null)
+                {
+                    @ViewBag.ResponseError;
+                }
+            </th>
+        </tr>
+    </thead>
+    @if (ViewBag.ResponseError == null)
+    {
+        @foreach (var modelItem in Model)
+        {
+            <tbody>
+                <br />
 
-@*<table class="table">
-        <thead>
-            <tr>
-                <th>@Html.DisplayName("-")</th>
-            </tr>
-        </thead>
-        <tbody>
-            <br />
-
-            @foreach (var mod in Model)
-            {
-                @foreach (var prop in typeof(Bip.IngeschrevenPersoon).GetProperties().ToList())
+                @foreach (var modelItemProperty in typeof(Bip.OuderHal).GetProperties().ToList())
                 {
                     <tr>
-                        <td style="font-weight:600">@Html.DisplayFor(m => prop.Name)</td>
-                        <td>@prop.GetValue(mod)</td>
+                        <td style="font-weight:600">@Html.DisplayFor(m => modelItemProperty.Name)</td>
+                        <td>@modelItemProperty.GetValue(modelItem)</td>
                     </tr>
 
-                    if ((!prop.PropertyType.Namespace.StartsWith("System") || prop.PropertyType.Namespace.Contains("Collection")) && !prop.PropertyType.Name.Contains("IDictionary"))
+                    if ((!modelItemProperty.PropertyType.Namespace.StartsWith("System") || modelItemProperty.PropertyType.Namespace.Contains("Collection")) && !modelItemProperty.PropertyType.Name.Contains("IDictionary"))
                     {
-                        @foreach (var d in prop.PropertyType.GetProperties().ToList())
+                        @foreach (var subProperty in modelItemProperty.PropertyType.GetProperties().ToList())
                         {
-                            var propObj = @ReturnProp(prop.Name, mod);
-                            Object propVal = null;
+                            var subPropertyObject = @ReturnProp(modelItemProperty.Name, modelItem);
+                            Object subPropertyValue = null;
 
-                            if (prop.PropertyType.Name.Contains("Collection"))
+                            if (modelItemProperty.PropertyType.Name.Contains("Collection"))
                             {
-                                var foo = @prop.GetValue(mod);
-                                if (foo != null)
+                                var collectionInSubproperty = modelItemProperty.GetValue(modelItem);
+                                if (collectionInSubproperty != null)
                                 {
-                                    var bar = ReturnIEnumerable(foo);
+                                    var collection = ReturnIEnumerable(collectionInSubproperty);
 
-                                    foreach (var b in bar)
+                                    foreach (var subPropertyCollectionItem in collection)
                                     {
-                                        foreach (var subTypeProp in b.GetType().GetProperties().ToList())
+                                        foreach (var propertyOfSubPropertyCollectionItem in subPropertyCollectionItem.GetType().GetProperties().ToList())
                                         {
                                             <tr>
-                                                <td style="color:lightslategray; font-size:80%"><i>@Html.DisplayFor(m => subTypeProp.Name)</i></td>
-                                                <td style="color:lightslategray; font-size:80%">@subTypeProp.GetValue(b)</td>
+                                                <td style="color:lightslategray; font-size:80%"><i>@Html.DisplayFor(m => propertyOfSubPropertyCollectionItem.Name)</i></td>
+                                                <td style="color:lightslategray; font-size:80%">@propertyOfSubPropertyCollectionItem.GetValue(subPropertyCollectionItem)</td>
                                             </tr>
                                         }
                                     }
                                 }
                             }
 
-                            else if (propObj != null)
+                            else if (subPropertyObject != null)
                             {
-                                propVal = propObj.GetType().GetProperty(d.Name).GetValue(propObj, null);
+                                subPropertyValue = subPropertyObject.GetType().GetProperty(subProperty.Name).GetValue(subPropertyObject, null);
                             }
 
                             <tr>
-                                <td><i>@Html.DisplayFor(m => d.Name)</i></td>
-                                <td>@propVal</td>
+                                <td><i>@Html.DisplayFor(m => subProperty.Name)</i></td>
+                                <td>@subPropertyValue</td>
                             </tr>
                         }
                     }
                 }
-            }
-        </tbody>
-    </table>*@
+
+            </tbody>
+        }
+    }
+</table>

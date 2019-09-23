@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bip.Controllers
@@ -16,6 +12,29 @@ namespace Bip.Controllers
             client = new BipClient(new System.Net.Http.HttpClient());
         }
 
+        public ActionResult Index()
+        {
+            //var response = client.IngeschrevenpersonenBurgerservicenummeroudersAsync("0", null).Result;
+            //IEnumerable<OuderHal> result = response._embedded.Ouders;
+
+            //IEnumerable<OuderHal> result = new List<OuderHal>() { DummyOuder };
+
+            return View();
+        }
+
+        public ActionResult Zoek(string apiVersionZoek, string bsnZoek)
+        {
+            var response = client.IngeschrevenpersonenBurgerservicenummeroudersAsync(bsnZoek, apiVersionZoek).Result;
+            IEnumerable<OuderHal> result = response._embedded.Ouders;
+
+            //var dummyLocal = DummyOuder;
+            //dummyLocal.Burgerservicenummer = bsnZoek;
+            //dummyLocal.Naam.Geslachtsnaam = DummyOuder.Naam.Geslachtsnaam + "-" + bsnZoek;
+            //IEnumerable<OuderHal> result = new List<OuderHal>() { dummyLocal };
+
+            return View(result);
+        }
+
         private OuderHal DummyOuder
         {
             get
@@ -26,33 +45,6 @@ namespace Bip.Controllers
 
                 return retval;
             }
-
         }
-
-        // GET: Ouders
-        public ActionResult Index()
-        {
-            var response = client.IngeschrevenpersonenBurgerservicenummeroudersAsync("0", null).Result;
-            IEnumerable<OuderHal> result = response._embedded.Ouders;
-
-            //IEnumerable<OuderHal> result = new List<OuderHal>() { DummyOuder };
-
-            return View(result);
-        }
-
-        // GET: Ouders/Details/5
-        public ActionResult Details(int id)
-        {
-            var response = client.IngeschrevenpersonenBurgerservicenummeroudersAsync(id.ToString(), null).Result;
-            IEnumerable<OuderHal> result = response._embedded.Ouders;
-
-            //var dummyLocal = DummyOuder;
-            //dummyLocal.Burgerservicenummer = id.ToString();
-            //dummyLocal.Naam.Geslachtsnaam = DummyOuder.Naam.Geslachtsnaam + "-" + id.ToString();
-            //IEnumerable<OuderHal> result = new List<OuderHal>() { dummyLocal };
-
-            return View(result);
-        }
-
     }
 }
