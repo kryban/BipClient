@@ -1,0 +1,133 @@
+﻿@model Bip.IngeschrevenPersoonHal
+
+@{
+    ViewData["Title"] = "IngeschrevenPersoon";
+
+    Object ReturnProp(String name, Object obj)
+    {
+        foreach (String part in name.Split(' '))
+        {
+            if (obj == null) { return null; }
+
+            Type type = obj.GetType();
+            var info = type.GetProperty(part);
+            if (info == null) { return null; }
+
+            obj = info.GetValue(obj, null);
+        }
+
+        return obj;
+    }
+
+    IEnumerable<object> ReturnIEnumerable(object obj)
+    {
+        return ((IEnumerable<object>)obj).Cast<object>().ToList();
+    }
+}
+
+<h2>IngeschrevenPersoon</h2>
+
+
+<script type="text/javascript">
+
+    function colorRelevant(id) {
+
+        $(".searchBox").css("border", "1px solid black").css("background", "white");;
+
+        if (id === "bsnZoek") {
+            $("#bsnZoek").css("border", "2px solid green").css("background", "lightgreen");
+        }
+
+
+    };
+
+</script>
+
+@using (Html.BeginForm("Zoek", "IngeschrevenPersoon", FormMethod.Post))
+{
+    <form>
+        <div>
+            <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="bsn" id="bsnZoek" name="bsnZoek" required>
+            <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="apiVersion" id="apiVersionZoek" name="apiVersionZoek">
+            <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="expand" id="expandZoek" name="expandZoek">
+            <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="fields" id="fieldsZoek" name="fieldsZoek">
+
+            <button type="submit">
+                <i class="fa fa-search">Zoek</i>
+            </button>
+
+        </div>
+    </form>
+}
+
+<div>
+    Het ophalen de actuele gegevens van een Ingeschreven Persoon, inclusief verblijfplaats, kinderen, partners en ouders. Het betreft alleen actuele gegevens van de betreffende ingeschreven personen.
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.ValidationMessage("Oei")</th>
+            @if (ViewBag.ResponseError != null)
+            {
+                @ViewBag.ResponseError;
+            }
+        </tr>
+    </thead>
+
+    @if (ViewBag.ResponseError == null)
+    {
+        <tbody>
+            <br />
+
+            @foreach (var modelItemProperty in typeof(Bip.IngeschrevenPersoonHal).GetProperties().ToList())
+            {
+                <tr>
+                    <td style="font-weight:600">@Html.DisplayFor(m => modelItemProperty.Name)</td>
+                    <td>@modelItemProperty.GetValue(Model);</td>
+                </tr>
+
+                if ((!modelItemProperty.PropertyType.Namespace.StartsWith("System") || modelItemProperty.PropertyType.Namespace.Contains("Collection")) && !modelItemProperty.PropertyType.Name.Contains("IDictionary"))
+                {
+                    @foreach (var subProperty in modelItemProperty.PropertyType.GetProperties().ToList())
+                    {
+                        var subPropertyObject = @ReturnProp(modelItemProperty.Name, Model); ;
+                        Object subPropertyValue = null;
+
+                        if (modelItemProperty.PropertyType.Name.Contains("Collection"))
+                        {
+                            var collectionInSubproperty = modelItemProperty.GetValue(Model);
+                            if (collectionInSubproperty != null)
+                            {
+                                var collection = ReturnIEnumerable(collectionInSubproperty);
+
+                                foreach (var subPropertyCollectionItem in collection)
+                                {
+                                    foreach (var propertyOfSubPropertyCollectionItem in subPropertyCollectionItem.GetType().GetProperties().ToList())
+                                    {
+                                        <tr>
+                                            <td style="color:lightslategray; font-size:80%"><i>@Html.DisplayFor(m => propertyOfSubPropertyCollectionItem.Name)</i></td>
+                                            <td style="color:lightslategray; font-size:80%">@propertyOfSubPropertyCollectionItem.GetValue(subPropertyCollectionItem)</td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        }
+
+                        else if (subPropertyObject != null)
+                        {
+                            subPropertyValue = subPropertyObject.GetType().GetProperty(subProperty.Name).GetValue(subPropertyObject, null);
+                        }
+
+                        <tr>
+                            <td><i>@Html.DisplayFor(m => subProperty.Name)</i></td>
+                            <td>@subPropertyValue</td>
+                        </tr>
+                    }
+                }
+            }
+
+
+        </tbody>
+    }
+</table>

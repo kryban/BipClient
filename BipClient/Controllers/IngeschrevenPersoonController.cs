@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 
 namespace Bip.Controllers
 {
@@ -10,32 +12,30 @@ namespace Bip.Controllers
         {
             client = new BipClient(new System.Net.Http.HttpClient());
         }
-        // GET: IngeschrevenPersoon
+
         public ActionResult Index()
         {
-            IngeschrevenPersoonHal response = client.IngeschrevenNatuurlijkPersoonAsync("999993653", null,null,null).Result;
-            //IngeschrevenPersoonHal response = new IngeschrevenPersoonHal() { Burgerservicenummer = "999993653", Naam = new NaamPersoon() { Geslachtsnaam = "FooKlant" } };
-
-            return View(response);
+            return View();
         }
 
-        // GET: IngeschrevenPersoon/Details/5
-        public ActionResult Details(int id)
+        [HttpPost]
+        public ActionResult Zoek(string apiVersionZoek,string expandZoek,string fieldsZoek,string bsnZoek)
         {
-            IngeschrevenPersoonHal response = client.IngeschrevenNatuurlijkPersoonAsync(id.ToString(),null,null,null).Result;
-            //IngeschrevenPersoonHal response = new IngeschrevenPersoonHal() { Burgerservicenummer = id.ToString(), Naam = new NaamPersoon() { Geslachtsnaam = "FooKlantId"+id.ToString() } };
+            IEnumerable<IngeschrevenPersoon> ingeschrevenPersonen;
 
-            return View(response);
+            try
+            {
+                IngeschrevenPersoonHal response = client.IngeschrevenNatuurlijkPersoonAsync(bsnZoek,apiVersionZoek,expandZoek,fieldsZoek).Result;
+                //ingeschrevenPersonen = new List<IngeschrevenPersoon>() { DummyIngeschrevenPersoon };
+
+                return View(response);
+
+            }
+            catch (Exception e)
+            {
+                ViewBag.ResponseError = e.InnerException;
+                return View();
+            }
         }
-
-        public ActionResult IndexEx(int id)
-        {
-            IngeschrevenPersoonHal response = client.IngeschrevenNatuurlijkPersoonAsync(id.ToString(),null,null,null).Result;
-            //IngeschrevenPersoonHal response = new IngeschrevenPersoonHal() { Burgerservicenummer = id.ToString(), Naam = new NaamPersoon() { Geslachtsnaam = "FooKlantId"+id.ToString() } };
-
-            //var foo = client.IngeschrevenpersonenBurgerservicenummerkinderenAsync()
-            return View(response);
-        }
-
     }
 }
