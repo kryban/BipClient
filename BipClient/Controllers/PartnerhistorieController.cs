@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bip.Controllers
@@ -16,6 +13,31 @@ namespace Bip.Controllers
             client = new BipClient(new System.Net.Http.HttpClient());
         }
 
+        // Get
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult Zoek(string bsnZoek, string apiVersionZoek, string fieldsZoek, DateTimeOffset peilDatumZoek, DateTimeOffset periodeVanZoek, DateTimeOffset periodeTotZoek)
+        {
+            var response = client.GetpartnerhistorieAsync(
+                bsnZoek
+                , apiVersionZoek
+                , fieldsZoek
+                , peilDatumZoek.Year == 1 ? (DateTimeOffset?)null : peilDatumZoek
+                , periodeVanZoek.Year == 1 ? (DateTimeOffset?)null : periodeVanZoek
+                , periodeTotZoek.Year == 1 ? (DateTimeOffset?)null : periodeTotZoek).Result;
+
+            IEnumerable <PartnerhistorieHal> result = response._embedded.Partnerhistorie;
+
+            //var dummyLocal = DummyPartnerhistorie;
+            //dummyLocal.Naam.Geslachtsnaam = DummyPartnerhistorie.Naam.Geslachtsnaam + id.ToString();
+            //IEnumerable<PartnerhistorieHal> result = new List<PartnerhistorieHal>() { dummyLocal };
+
+            return View(result);
+        }
+
         private PartnerhistorieHal DummyPartnerhistorie
         {
             get
@@ -26,32 +48,6 @@ namespace Bip.Controllers
 
                 return retval;
             }
-
         }
-
-        // Get
-        public ActionResult Index()
-        {
-            var response = client.GetpartnerhistorieAsync("999993653", null,null,null,null,null).Result;
-            IEnumerable<PartnerhistorieHal> result = response._embedded.Partnerhistorie;
-
-            //IEnumerable<PartnerhistorieHal> result = new List<PartnerhistorieHal>() { DummyPartnerhistorie };
-
-            return View(result);
-        }
-
-        // GET: Ouders/Details/5
-        public ActionResult Details(int id)
-        {
-            var response = client.GetpartnerhistorieAsync(id.ToString(), null,null,null,null,null).Result;
-            IEnumerable<PartnerhistorieHal> result = response._embedded.Partnerhistorie;
-
-            //var dummyLocal = DummyPartnerhistorie;
-            //dummyLocal.Naam.Geslachtsnaam = DummyPartnerhistorie.Naam.Geslachtsnaam + id.ToString();
-            //IEnumerable<PartnerhistorieHal> result = new List<PartnerhistorieHal>() { dummyLocal };
-
-            return View(result);
-        }
-
     }
 }
