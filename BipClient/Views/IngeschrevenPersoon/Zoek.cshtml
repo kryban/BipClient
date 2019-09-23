@@ -52,9 +52,7 @@
             <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="expand" id="expandZoek" name="expandZoek">
             <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="fields" id="fieldsZoek" name="fieldsZoek">
 
-            <button type="submit">
-                <i class="fa fa-search">Zoek</i>
-            </button>
+            <button type="submit">Zoek</button>
 
         </div>
     </form>
@@ -68,10 +66,12 @@
     <thead>
         <tr>
             <th>@Html.ValidationMessage("Oei")</th>
-            @if (ViewBag.ResponseError != null)
-            {
-                @ViewBag.ResponseError;
-            }
+            <th style="color:red">
+                @if (ViewBag.ResponseError != null)
+                {
+                    @ViewBag.ResponseError;
+                }
+            </th>
         </tr>
     </thead>
 

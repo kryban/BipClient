@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Bip.IngeschrevenPersoon>
+﻿@model IEnumerable<Bip.KindHal>
 
 @{
     ViewData["Title"] = "IngeschrevenPersoon Resultaat";
@@ -24,42 +24,16 @@
         return ((IEnumerable<object>)obj).Cast<object>().ToList();
     }
 }
-
 <script type="text/javascript">
 
     function colorRelevant(id) {
 
         $(".searchBox").css("border", "1px solid black").css("background", "white");;
 
-        if (id === "geboorteDatumZoek" || id === "geslachtsnaamZoek") {
-            $("#geboorteDatumZoek").css("border", "2px solid green").css("background", "lightgreen");
-            $("#geslachtsnaamZoek").css("border", "2px solid green").css("background", "lightgreen");
-        }
-
-        if (id === "gemeentevaninschrijvingZoek" || id === "geslachtsnaamZoek") {
-            $("#gemeentevaninschrijvingZoek").css("border", "2px solid green").css("background", "lightgreen");
-            $("#geslachtsnaamZoek").css("border", "2px solid green").css("background", "lightgreen");
-        }
-
-        if (id === "postcodeZoek" || id === "huisnummerZoek") {
-            $("#postcodeZoek").css("border", "2px solid green").css("background", "lightgreen");
-            $("#huisnummerZoek").css("border", "2px solid green").css("background", "lightgreen");
-        }
-
         if (id === "bsnZoek") {
             $("#bsnZoek").css("border", "2px solid green").css("background", "lightgreen");
         }
 
-        if (id === "gemeentevaninschrijvingZoek" || id === "naamopenbareruimteZoek" || id === "huisnummerZoek") {
-            $("#gemeentevaninschrijvingZoek").css("border", "2px solid green").css("background", "lightgreen");
-            $("#naamopenbareruimteZoek").css("border", "2px solid green").css("background", "lightgreen");
-            $("#huisnummerZoek").css("border", "2px solid green").css("background", "lightgreen");
-
-        }
-
-        if (id === "identificatiecodenummeraanduidingZoek") {
-            $("#identificatiecodenummeraanduidingZoek").css("border", "2px solid green").css("background", "lightgreen");
-        }
     };
 
 </script>
@@ -77,41 +51,30 @@
             $(this).hide();
         });
         $('.header').on('click', function () {
-            $(this).next().slideToggle(100);
+            $(this).next().slideToggle("slow");
         });
     });
 
 </script>
 
-<h2>IngeschrevenPersonen Resultaat</h2>
+<h2>Kinderen</h2>
 
-@using (Html.BeginForm("Zoek", "IngeschrevenPersonen", FormMethod.Post))
+@using (Html.BeginForm("Zoek", "Kinderen", FormMethod.Post))
 {
     <form>
         <div>
             <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="apiVersion" id="apiVersionZoek" name="apiVersionZoek">
-            <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="expand" id="expandZoek" name="expandZoek">
-            <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="fields" id="fieldsZoek" name="fieldsZoek">
-            <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="bsn" id="bsnZoek" name="bsnZoek">
-            <input onfocus="colorRelevant(this.id)" class="searchBox" type="date" placeholder="geboortedatum" id="geboorteDatumZoek" name="geboorteDatumZoek">
-            <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="geboorteplaats" id="geboorteplaatsZoek" name="geboorteplaatsZoek">
-            <input onfocus="colorRelevant(this.id)" class="searchBox" type="number" placeholder="geslachtsaanduiding" id="geslachtsaanduidingZoek" name="geslachtsaanduidingZoek">
-            <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="geslachtsnaam" id="geslachtsnaamZoek" name="geslachtsnaamZoek">
-            <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="voornamen" id="voornamenZoek" name="voornamenZoek">
-            <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="gemeentevaninschrijving(code)" id="gemeentevaninschrijvingZoek" name="gemeentevaninschrijvingZoek">
-            <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="huisletter" id="huisletterZoek" name="huisletterZoek">
-            <input onfocus="colorRelevant(this.id)" class="searchBox" type="number" placeholder="huisnummer" id="huisnummerZoek" name="huisnummerZoek">
-            <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="huisnummertoevoeging" id="huisnummertoevoegingZoek" name="huisnummertoevoegingZoek">
-            <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="identificatiecodenummeraanduiding" id="identificatiecodenummeraanduidingZoek" name="identificatiecodenummeraanduidingZoek">
-            <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="naamopenbareruimte" id="naamopenbareruimteZoek" name="naamopenbareruimteZoek">
-            <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="postcode" id="postcodeZoek" name="postcodeZoek">
-            <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="voorvoegsel" id="voorvoegselZoek" name="voorvoegselZoek">
-            <input onfocus="colorRelevant(this.id)" class="searchBox" type="checkbox" title="inclOverleden" placeholder="inclusiefoverledenpersonen" id="inclusiefoverledenpersonenZoek" name="inclusiefoverledenpersonenZoek">
+            <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="bsn" id="bsnZoek" name="bsnZoek" required>
 
             <button type="submit">Zoek</button>
+
         </div>
     </form>
 }
+
+<div>
+    Het ophalen de kind-gegevens van een Ingeschreven Persoon zoals die op de persoonslijst voorkomen. Er vind geen sortering plaats.
+</div>
 
 <table class="table">
     <thead>
@@ -132,7 +95,7 @@
             <tbody>
                 <br />
 
-                @foreach (var modelItemProperty in typeof(Bip.IngeschrevenPersoon).GetProperties().ToList())
+                @foreach (var modelItemProperty in typeof(Bip.KindHal).GetProperties().ToList())
                 {
                     <tr>
                         <td style="font-weight:600">@Html.DisplayFor(m => modelItemProperty.Name)</td>
