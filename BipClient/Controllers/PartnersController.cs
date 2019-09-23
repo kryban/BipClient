@@ -16,34 +16,14 @@ namespace Bip.Controllers
             client = new BipClient(new System.Net.Http.HttpClient());
         }
 
-        private PartnerHal DummyPartner
-        {
-            get
-            {
-                var retval = new PartnerHal();
-                retval.Burgerservicenummer = "333333331";
-                retval.Naam = new Naam() { Geslachtsnaam = "PartnertEen", Voorvoegsel="van", Voorletters = "JP", Voornamen = "Jan-Part" };
-
-                return retval;
-            }
-
-        }
-
-        // GET: Ouders
         public ActionResult Index()
         {
-            var response = client.IngeschrevenpersonenBurgerservicenummerpartnersAsync("999993653", null).Result;
-            IEnumerable<PartnerHal> result = response._embedded.Partners;
-
-            //IEnumerable<PartnerHal> result = new List<PartnerHal>() { DummyPartner };
-
-            return View(result);
+            return View();
         }
 
-        // GET: Ouders/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Zoek(string bsnZoek, string apiVersionZoek)
         {
-            var response = client.IngeschrevenpersonenBurgerservicenummerpartnersAsync(id.ToString(), null).Result;
+            var response = client.IngeschrevenpersonenBurgerservicenummerpartnersAsync(bsnZoek, apiVersionZoek).Result;
             IEnumerable<PartnerHal> result = response._embedded.Partners;
 
             //var dummyLocal = DummyPartner;
@@ -54,5 +34,16 @@ namespace Bip.Controllers
             return View(result);
         }
 
+        private PartnerHal DummyPartner
+        {
+            get
+            {
+                var retval = new PartnerHal();
+                retval.Burgerservicenummer = "333333331";
+                retval.Naam = new Naam() { Geslachtsnaam = "PartnertEen", Voorvoegsel = "van", Voorletters = "JP", Voornamen = "Jan-Part" };
+
+                return retval;
+            }
+        }
     }
 }
