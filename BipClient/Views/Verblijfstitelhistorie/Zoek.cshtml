@@ -1,0 +1,156 @@
+﻿@model IEnumerable<Bip.Verblijfstitelhistorie>
+
+@{
+    ViewData["Title"] = "Verblijfstitelhistorie";
+
+    Object ReturnProp(String name, Object obj)
+    {
+        foreach (String part in name.Split(' '))
+        {
+            if (obj == null) { return null; }
+
+            Type type = obj.GetType();
+            var info = type.GetProperty(part);
+            if (info == null) { return null; }
+
+            obj = info.GetValue(obj, null);
+        }
+
+        return obj;
+    }
+
+    IEnumerable<object> ReturnIEnumerable(object obj)
+    {
+        return ((IEnumerable<object>)obj).Cast<object>().ToList();
+    }
+
+}
+
+<script type="text/javascript">
+
+    function colorRelevant(id) {
+
+        $(".searchBox").css("border", "1px solid black").css("background", "white");;
+
+        if (id === "bsnZoek") {
+            $("#bsnZoek").css("border", "2px solid green").css("background", "lightgreen");
+        }
+    };
+
+</script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var aantal = 0
+        $('table tbody').each(function () {
+            //var num = $(this).children().length;
+            // alert(num);
+            aantal++;
+            $(this).before("<button id='header' class='header' style:'cursor:pointer;'> Resultaat " + aantal + " </button>");
+            //alert($(this).html());
+            $(this).hide();
+        });
+        $('.header').on('click', function () {
+            $(this).next().slideToggle("slow");
+        });
+    });
+
+</script>
+
+<h2>Verblijfstitelhistorie</h2>
+
+@using (Html.BeginForm("Zoek", "Verblijfstitelhistorie", FormMethod.Post))
+{
+    <form>
+        <div>
+            <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="apiVersion" id="apiVersionZoek" name="apiVersionZoek">
+            <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="fields" id="fieldsZoek" name="fieldsZoek">
+            <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="bsn" id="bsnZoek" name="bsnZoek" required>
+            <input onfocus="colorRelevant(this.id)" class="searchBox" type="date" placeholder="peilDatum" id="peilDatumZoek" name="peilDatumZoek">
+            <input onfocus="colorRelevant(this.id)" class="searchBox" type="date" placeholder="periodeVan" id="periodeVanZoek" name="periodeVanZoek">
+            <input onfocus="colorRelevant(this.id)" class="searchBox" type="date" placeholder="periodeTot" id="periodeTotZoek" name="periodeTotZoek">
+
+            <button type="submit">Zoek</button>
+
+        </div>
+    </form>
+}
+
+<div>
+    Het ophalen van de verblijfstitelhistorie van een ingeschreven persoon. <br />
+    Van een ingeschreven persoon worden verblijfstitels geretourneerd die geldig was op de (optioneel) opgegeven peildatum (geldigop) of worden de verblijfstitels geretourneerd die geldig waren
+    binnen de (optioneel) opgegeven periode (geldigvan tot geldigtot). Wanneer geen peildatum of periode wordt opgegeven, worden alle verblijfstitels van de persoon teruggegeven.<br />
+    Er wordt aflopend gesorteerd op datumingang, zodat de meest actuele bovenaan staat..
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.ValidationMessage("Oei")</th>
+            <th style="color:red">
+                @if (ViewBag.ResponseError != null)
+                {
+                    @ViewBag.ResponseError;
+                }
+            </th>
+        </tr>
+    </thead>
+    @if (ViewBag.ResponseError == null)
+    {
+        @foreach (var modelItem in Model)
+        {
+            <tbody>
+                <br />
+
+                @foreach (var modelItemProperty in typeof(Bip.Verblijfstitelhistorie).GetProperties().ToList())
+                {
+                    <tr>
+                        <td style="font-weight:600">@Html.DisplayFor(m => modelItemProperty.Name)</td>
+                        <td>@modelItemProperty.GetValue(modelItem)</td>
+                    </tr>
+
+                    if ((!modelItemProperty.PropertyType.Namespace.StartsWith("System") || modelItemProperty.PropertyType.Namespace.Contains("Collection")) && !modelItemProperty.PropertyType.Name.Contains("IDictionary"))
+                    {
+                        @foreach (var subProperty in modelItemProperty.PropertyType.GetProperties().ToList())
+                        {
+                            var subPropertyObject = @ReturnProp(modelItemProperty.Name, modelItem);
+                            Object subPropertyValue = null;
+
+                            if (modelItemProperty.PropertyType.Name.Contains("Collection"))
+                            {
+                                var collectionInSubproperty = modelItemProperty.GetValue(modelItem);
+                                if (collectionInSubproperty != null)
+                                {
+                                    var collection = ReturnIEnumerable(collectionInSubproperty);
+
+                                    foreach (var subPropertyCollectionItem in collection)
+                                    {
+                                        foreach (var propertyOfSubPropertyCollectionItem in subPropertyCollectionItem.GetType().GetProperties().ToList())
+                                        {
+                                            <tr>
+                                                <td style="color:lightslategray; font-size:80%"><i>@Html.DisplayFor(m => propertyOfSubPropertyCollectionItem.Name)</i></td>
+                                                <td style="color:lightslategray; font-size:80%">@propertyOfSubPropertyCollectionItem.GetValue(subPropertyCollectionItem)</td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+                            }
+
+                            else if (subPropertyObject != null)
+                            {
+                                subPropertyValue = subPropertyObject.GetType().GetProperty(subProperty.Name).GetValue(subPropertyObject, null);
+                            }
+
+                            <tr>
+                                <td><i>@Html.DisplayFor(m => subProperty.Name)</i></td>
+                                <td>@subPropertyValue</td>
+                            </tr>
+                        }
+                    }
+                }
+
+            </tbody>
+        }
+    }
+</table>
