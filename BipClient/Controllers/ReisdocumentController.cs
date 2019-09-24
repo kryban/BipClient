@@ -15,19 +15,15 @@ namespace Bip.Controllers
         {
             client = new BipClient(new System.Net.Http.HttpClient());
         }
-        // GET: IngeschrevenPersoon
         public ActionResult Index()
         {
-            ReisdocumentHal response = client.ReisdocumentenReisdocumentnummerAsync("999990317", null).Result;
-            //ReisdocumentHal response = new ReisdocumentHal() { Reisdocumentnummer= "123321", SoortReisdocument = new Waardetabel() { Code = "2", Omschrijving="Twee" } } ;
-
-            return View(response);
+            return View();
         }
 
         // GET: IngeschrevenPersoon/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Zoek(string reisdocumentNummerZoek, string apiVersion)
         {
-            ReisdocumentHal response = client.ReisdocumentenReisdocumentnummerAsync(id.ToString(),null).Result;
+            ReisdocumentHal response = client.ReisdocumentenReisdocumentnummerAsync(reisdocumentNummerZoek, apiVersion).Result;
             //ReisdocumentHal response = new ReisdocumentHal() { Reisdocumentnummer = "123321"+id.ToString(), SoortReisdocument = new Waardetabel() { Code = "2", Omschrijving = "Twee" } };
 
             return View(response);

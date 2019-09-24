@@ -26,67 +26,60 @@
 
 }
 
-<h2>Reisdocument</h2>
+<h2>Reisodcument</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>@Html.DisplayName("FieldName")</th>
-            <th>@Html.DisplayName("FieldValue")</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
 
-        @foreach (var prop in typeof(Bip.Reisdocument).GetProperties().ToList())
-        {
-            <tr>
-                <td style="font-weight:600">@Html.DisplayFor(m => prop.Name)</td>
-                <td>@prop.GetValue(Model)</td>
-            </tr>
+<script type="text/javascript">
 
-            if ((!prop.PropertyType.Namespace.StartsWith("System") || prop.PropertyType.Namespace.Contains("Collection")) && !prop.PropertyType.Name.Contains("IDictionary"))
-            {
-                @foreach (var d in prop.PropertyType.GetProperties().ToList())
-                {
-                    var propObj = @ReturnProp(prop.Name, Model);
-                    Object propVal = null;
+    function colorRelevant(id) {
 
-                    if (prop.PropertyType.Namespace.Contains("Collection"))
-                    {
-                        var foo = @prop.GetValue(Model);
-                        if (foo != null)
-                        {
-                            var bar = ReturnIEnumerable(foo);
+        $(".searchBox").css("border", "1px solid black").css("background", "white");;
 
-                            foreach (var b in bar)
-                            {
-                                //var realType = Type.GetType(b.GetType().FullName + "," + System.Reflection.Assembly.GetAssembly(b.GetType()));
-                                //var fooBar = Convert.ChangeType(b, realType);
-                                //var fooBar = b; // Convert.ChangeType(b, b.GetType());
-
-                                foreach (var subTypeProp in b.GetType().GetProperties().ToList())
-                                {
-                                    <tr>
-                                        <td style="color:lightslategray; font-size:80%"><i>@Html.DisplayFor(m => subTypeProp.Name)</i></td>
-                                        <td style="color:lightslategray; font-size:80%">@subTypeProp.GetValue(b)</td>
-                                    </tr>
-                                }
-                            }
-                        }
-                    }
-                    else if (propObj != null)
-                    {
-                        propVal = propObj.GetType().GetProperty(d.Name).GetValue(propObj, null);
-                    }
-
-                    <tr>
-                        <td><i>@Html.DisplayFor(m => d.Name)</i></td>
-                        <td>@propVal</td>
-
-                    </tr>
-                }
-            }
+        if (id === "reisdocumentNummerZoek") {
+            $("#reisdocumentNummerZoek").css("border", "2px solid green").css("background", "lightgreen");
         }
-    </tbody>
-</table>
+
+
+    };
+
+</script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var aantal = 0
+        $('table tbody').each(function () {
+            //var num = $(this).children().length;
+            // alert(num);
+            aantal++;
+            $(this).before("<button id='header' class='header' style:'cursor:pointer;'> Resultaat " + aantal + " </button>");
+            //alert($(this).html());
+            $(this).hide();
+        });
+        $('.header').on('click', function () {
+            $(this).next().slideToggle(100);
+        });
+    });
+
+</script>
+
+
+
+@using (Html.BeginForm("Zoek", "Reisdocument", FormMethod.Post))
+{
+    <form>
+        <div>
+            <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="reisdocumentNummer" id="reisdocumentNummerZoek" name="reisdocumentNummerZoek" required>
+            <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="apiVersion" id="apiVersionZoek" name="apiVersionZoek">
+
+            <button type="submit">Zoek</button>
+
+        </div>
+    </form>
+}
+
+<div>
+    Het ophalen van de gegevens van een REISDOCUMENT op basis van het reisdocumentnummer. <br />
+    Is nog niet ge"implementeerd bij BRP
+</div>
+
