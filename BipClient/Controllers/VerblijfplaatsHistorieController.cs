@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bip.Controllers
@@ -14,6 +11,26 @@ namespace Bip.Controllers
         public VerblijfplaatshistorieController()
         {
             client = new BipClient(new System.Net.Http.HttpClient());
+        }
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult Zoek(string bsnZoek, string apiVersionZoek, string fieldsZoek, DateTimeOffset peilDatumZoek, DateTimeOffset periodeVanZoek, DateTimeOffset periodeTotZoek)
+        {
+            var response = client.GetverblijfplaatshistorieAsync(
+                bsnZoek
+                , apiVersionZoek
+                , fieldsZoek
+                , peilDatumZoek.Year == 1 ? (DateTimeOffset?)null : peilDatumZoek
+                , periodeVanZoek.Year == 1 ? (DateTimeOffset?)null : periodeVanZoek
+                , periodeTotZoek.Year == 1 ? (DateTimeOffset?)null : periodeTotZoek).Result;
+
+            IEnumerable<VerblijfplaatshistorieHal> result = response._embedded.Verblijfplaatshistorie;
+
+            return View(result);
         }
 
         private VerblijfplaatshistorieHal DummyVerblijfplaatshistorie
@@ -29,30 +46,5 @@ namespace Bip.Controllers
             }
 
         }
-
-        // GET: Ouders
-        public ActionResult Index()
-        {
-            var response = client.GetverblijfplaatshistorieAsync("0", null,null,null,null,null).Result;
-            IEnumerable<VerblijfplaatshistorieHal> result = response._embedded.Verblijfplaatshistorie;
-
-            //IEnumerable<VerblijfplaatshistorieHal> result = new List<VerblijfplaatshistorieHal>() { DummyVerblijfplaatshistorie };
-
-            return View(result);
-        }
-
-        // GET: Ouders/Details/5
-        public ActionResult Details(int id)
-        {
-            var response = client.GetverblijfplaatshistorieAsync(id.ToString(), null,null,null,null,null).Result;
-            IEnumerable<VerblijfplaatshistorieHal> result = response._embedded.Verblijfplaatshistorie;
-
-            //var dummyLocal = DummyVerblijfplaatshistorie;
-            //dummyLocal.Huisnummer = DummyVerblijfplaatshistorie.Huisnummer + id;
-            //IEnumerable<VerblijfplaatshistorieHal> result = new List<VerblijfplaatshistorieHal>() { dummyLocal };
-
-            return View(result);
-        }
-
     }
 }
