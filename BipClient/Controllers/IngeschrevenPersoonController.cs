@@ -19,14 +19,11 @@ namespace Bip.Controllers
         }
 
         [HttpPost]
-        public ActionResult Zoek(string apiVersionZoek,string expandZoek,string fieldsZoek,string bsnZoek)
+        public ActionResult ZoekPersoon(string bsnZoek,string apiVersionZoek,string expandZoek,string fieldsZoek)
         {
-            IEnumerable<IngeschrevenPersoon> ingeschrevenPersonen;
-
             try
             {
                 IngeschrevenPersoonHal response = client.IngeschrevenNatuurlijkPersoonAsync(bsnZoek,apiVersionZoek,expandZoek,fieldsZoek).Result;
-                //ingeschrevenPersonen = new List<IngeschrevenPersoon>() { DummyIngeschrevenPersoon };
 
                 return View(response);
 

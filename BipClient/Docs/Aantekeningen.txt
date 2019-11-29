@@ -3,6 +3,8 @@ https://github.com/VNG-Realisatie/Haal-Centraal-BRP-bevragen
 
 NSwag specificatie
 https://petstore.swagger.io/?url=https://raw.githubusercontent.com/VNG-Realisatie/Bevragingen-ingeschreven-personen/master/api-specificatie/Bevraging-Ingeschreven-Persoon/openapi.yaml#/ingeschrevenpersonen/ingeschrevenNatuurlijkPersonen
+Resolved:
+https://raw.githubusercontent.com/VNG-Realisatie/Bevragingen-ingeschreven-personen/master/api-specificatie/Bevraging-Ingeschreven-Persoon/resolved/openapi.yaml
 
 GBA-V Testomgevingen
 https://www.rvig.nl/actueel/nieuws/2018/09/21/nieuwe-versie-testdatabase-proefomgevingen-gba-v-en-bv-bsn

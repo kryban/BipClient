@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bip", "BipClient\Bip.csproj", "{EFD2CE20-0C3A-4A45-8936-0E295DFB7C82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bip", "BipClient\Bip.csproj", "{EFD2CE20-0C3A-4A45-8936-0E295DFB7C82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrpApi", "BrpApi\BrpApi.csproj", "{ECB7B605-98EA-4D17-AAF2-3C3E7A837F62}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{EFD2CE20-0C3A-4A45-8936-0E295DFB7C82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFD2CE20-0C3A-4A45-8936-0E295DFB7C82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFD2CE20-0C3A-4A45-8936-0E295DFB7C82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECB7B605-98EA-4D17-AAF2-3C3E7A837F62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECB7B605-98EA-4D17-AAF2-3C3E7A837F62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECB7B605-98EA-4D17-AAF2-3C3E7A837F62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECB7B605-98EA-4D17-AAF2-3C3E7A837F62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
