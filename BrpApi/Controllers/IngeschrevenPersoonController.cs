@@ -35,7 +35,8 @@ namespace BrpApi.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            return default;
         }
 
         // GET: api/IngeschrevenPersoon/5

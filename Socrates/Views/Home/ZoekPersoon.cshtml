@@ -1,0 +1,124 @@
+﻿@model Socrates.Models.Persoon
+
+@{
+    ViewData["Title"] = "Persoon";
+}
+
+<h1>Persoon</h1>
+
+
+@using (Html.BeginForm("ZoekPersoon", "Home", FormMethod.Post))
+{
+    <form>
+        <div>
+            <input class="searchBox" type="text" placeholder="bsn" id="bsnZoek" name="bsnZoek" required>
+            @*<input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="apiVersion" id="apiVersionZoek" name="apiVersionZoek">
+            <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="expand" id="expandZoek" name="expandZoek">
+            <input onfocus="colorRelevant(this.id)" class="searchBox" type="text" placeholder="fields" id="fieldsZoek" name="fieldsZoek">*@
+
+            <button type="submit">Zoek</button>
+
+        </div>
+    </form>
+}
+
+<div>
+    <h4>Persoon</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Burgerservicenummer)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Burgerservicenummer)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Naam)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Naam)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Voorvoegsels)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Voorvoegsels)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Voorletters)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Voorletters)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Voornamen)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Voornamen)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Geslacht)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Geslacht)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DatumGeboorteBevolking)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DatumGeboorteBevolking)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DatumGeboorte)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DatumGeboorte)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DatumOverlijden)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DatumOverlijden)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Geboorteland)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Geboorteland)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Nationaliteit1)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nationaliteit1)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Nationaliteit2)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nationaliteit2)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Geheim)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Geheim)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Aanhef)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Aanhef)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Aanschrijfwijze)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Aanschrijfwijze)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>
