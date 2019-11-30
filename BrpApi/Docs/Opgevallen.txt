@@ -1,0 +1,6 @@
+﻿1.
+Nationaliteit is ondergebracht in een verzameling van nationaliteiten. 
+Betekent dit dat er ook 3 nationaliteiten aanwezig kunnen zijn ?
+Is er een volgorde van prioriteit in de nationaliteiten ?
+
+2.

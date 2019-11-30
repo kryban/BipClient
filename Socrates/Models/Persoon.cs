@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -46,6 +47,7 @@ namespace Socrates.Models
         //GESLACHT NUMBER(5,0)         Yes		8	
         public enmGeslacht? Geslacht { get; set; }
 
+        [DisplayName("Geboortdatum bevolking")]
         //De datum van de geboorte zoals deze is opgegeven aan de ambtenaar van de Burgerlijke Stand, 
         //of bij vestigen vanuit het buitenland aan de GBA.
         //DTGEBOORTEGBA           VARCHAR2(8 BYTE)    Yes		9	
@@ -55,8 +57,10 @@ namespace Socrates.Models
         //Dit gegeven wordt door CBS gebruikt(Kenmerk 1). 
         //Als de dag en/of maand van geboorte onbekend is dan wordt resp. 15 en 07 gebruikt.
         //DTGEBOORTE DATE                Yes		10	
+        [DisplayName("Geboortedatum")]
         public DateTime? DatumGeboorte { get; set; }
 
+        [DisplayName("Datum overlijden")]
         //De(vermoedelijke) datum van overlijden of de datum van lijkvinding zoals dit is opgegeven aan de ambtenaar van de 
         //Burgerlijke Stand.
         //Indien de dag en/of maand van geboorte onbekend is dan wordt resp. 15 en 07 gebruikt.
