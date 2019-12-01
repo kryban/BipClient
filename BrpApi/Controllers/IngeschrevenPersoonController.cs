@@ -20,11 +20,6 @@ namespace BrpApi.Controllers
 
         private readonly ILogger<IngeschrevenPersoonController> logger;
 
-        //public WeatherForecastController(ILogger<WeatherForecastController> logger)
-        //{
-        //    _logger = logger;
-        //}
-
         public IngeschrevenPersoonController(ILogger<IngeschrevenPersoonController>logger)
         {
             this.logger = logger;
@@ -40,7 +35,7 @@ namespace BrpApi.Controllers
         }
 
         // GET: api/IngeschrevenPersoon/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}", Name = "GetNatuurlijkPersoon")]
         public Persoon Get(string id)
         {
             Persoon retVal;

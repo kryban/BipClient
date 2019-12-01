@@ -8,6 +8,29 @@ namespace BrpApi.Models
 {
     public class Persoon
     {
+        public Persoon()
+        {
+
+        }
+
+        public Persoon(Persoon persoon)
+        {
+            Aanhef = persoon.Aanhef;
+            Aanschrijfwijze = persoon.Aanschrijfwijze;
+            Burgerservicenummer = persoon.Burgerservicenummer;
+            DatumGeboorte = persoon.DatumGeboorte;
+            DatumGeboorteBevolking = persoon.DatumGeboorteBevolking;
+            DatumOverlijden = persoon.DatumOverlijden;
+            Geboorteland = persoon.Geboorteland;
+            Geheim = persoon.Geheim;
+            Geslacht = persoon.Geslacht;
+            Naam = persoon.Naam;
+            Nationaliteit1 = persoon.Nationaliteit1;
+            Nationaliteit1 = persoon.Nationaliteit2;
+            Voorletters = persoon.Voorletters;
+            Voornamen = persoon.Voornamen;
+            Voorvoegsels = persoon.Voorvoegsels;
+        }
         //Het burgerservicenummer(BSN) wordt in 2007 ingevoerd.Het BSN is een uniek identificerend persoonsnummer dat iedereen krijgt, die ingeschreven staat in de Gemeentelijke basisadministratie en persoonsgegevens(GBA) of de nog te vormen registratie niet-ingezetenen.Getalsmatig is het burgerservicenummer gelijk aan het sociaal-fiscaalnummer(Sofi-nummer), dat wil zeggen dat het ook uit negen cijfers bestaat en dat het voldoet aan de elfproef.Het BSN onderscheidt zich van het Sofi-nummer voor wat het bereik ervan betreft en de wijze waarop wettelijk is vastgelegd wat met behulp van het BSN mag gebeuren.Het BSN zal door(overheid)organisaties gebruikt worden voor de communicatie met de burger en, daar waar dat wettelijk is toegestaan, voor de uitwisseling van persoonsgegevens tussen(overheid)organisaties onderling.
         //BSN                     NUMBER(9,0)         Yes		26	
         public int? Burgerservicenummer { get; set; }
