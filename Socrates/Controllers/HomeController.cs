@@ -13,12 +13,14 @@ namespace Socrates.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        Brp.IngeschrevenPersoonClient ingeschrevenPersoonClient;
+        Brp.IngeschrevenPersoonClient brpClientPersoon;
+        Brp.IngeschrevenPersoonOudersClient brpClientOuders;
 
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            ingeschrevenPersoonClient = new Brp.IngeschrevenPersoonClient(new HttpClient());
+            brpClientPersoon = new Brp.IngeschrevenPersoonClient(new HttpClient());
+            brpClientOuders = new Brp.IngeschrevenPersoonOudersClient(new HttpClient());
         }
 
         public IActionResult Index()
@@ -38,9 +40,24 @@ namespace Socrates.Controllers
 
         public IActionResult ZoekPersoon(string bsnZoek)
         {
-            var brpPersoon = ingeschrevenPersoonClient.GetAsync(bsnZoek).Result;
-            Persoon result = Mapper.BrpPersoon_naar_SocratesPersoon.Map(brpPersoon);
+            Persoon result = HaalPersoonUitBrp(bsnZoek);
             return View(result);
+        }
+
+        public IActionResult ZoekOuders(string bsn)
+        {
+            Persoon persoon = HaalPersoonUitBrp(bsn);
+
+            var brpOuders = brpClientOuders.GetAsync(bsn).Result;
+            List<Relatie> ouders = Mapper.BrpOuders_naar_SocratesOuderRelatie.Map(persoon, brpOuders);
+            return View(ouders);
+        }
+
+        private Persoon HaalPersoonUitBrp(string bsn)
+        {
+            var brpPersoon = brpClientPersoon.GetAsync(bsn).Result;
+            Persoon persoon = Mapper.BrpPersoon_naar_SocratesPersoon.Map(brpPersoon);
+            return persoon;
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
