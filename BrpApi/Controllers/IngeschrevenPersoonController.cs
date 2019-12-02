@@ -98,10 +98,10 @@ namespace BrpApi.Controllers
         public IEnumerable<Persoon> GetMedebewoners(string id)
         {
             List<Persoon> retVal;
-            PartnerHalCollectie brpSubResults;
+            BewoningHalCollectie brpSubResults;
 
-            brpSubResults = null; //bbpaClient.GetBewoningenAsync//bipClient.IngeschrevenpersonenBurgerservicenummerpartnersAsync(id, null).Result;
-            retVal = HaalPersoonsgegevensOp(brpSubResults._embedded.Partners.Select(x => x.Burgerservicenummer));
+            brpSubResults = bbpaClient.GetBewoningenAsync(null, null, null, null, null, null, 1, null, null, null, null, "2596TW", null, null).Result;
+            retVal = HaalPersoonsgegevensOp(brpSubResults._embedded.Bewoningen.Select(x => x.Burgerservicenummer));
 
             return retVal;
         }
