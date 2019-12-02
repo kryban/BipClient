@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using BrpApi.BevragingIngeschrevenPersoon;
 using BrpApi.Models;
 using BrpApi.Mappers;
 //using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using BrpApi.BevragingIngeschrevenPersonenClient;
+using BrpApi.BevragingBewonersPerAdresClient;
 //using System.Web.Http;
 
 namespace BrpApi.Controllers
@@ -17,14 +18,16 @@ namespace BrpApi.Controllers
     [ApiController]
     public class IngeschrevenPersoonController : ControllerBase
     {
-        BipClient client;
+        BipClient bipClient;
+        BbpaClient bbpaClient;
 
         private readonly ILogger<IngeschrevenPersoonController> logger;
 
-        public IngeschrevenPersoonController(ILogger<IngeschrevenPersoonController>logger)
+        public IngeschrevenPersoonController(ILogger<IngeschrevenPersoonController> logger)
         {
             this.logger = logger;
-            client = new BipClient(new HttpClient());
+            bipClient = new BipClient(new HttpClient());
+            bbpaClient = new BbpaClient(new HttpClient());
         }
 
         // GET: api/BevragingIngeschrevenPersoon
@@ -44,7 +47,7 @@ namespace BrpApi.Controllers
             Persoon retVal;
             IngeschrevenPersoonHal brpResult;
 
-            brpResult = client.IngeschrevenNatuurlijkPersoonAsync(id, null, null, null).Result;
+            brpResult = bipClient.IngeschrevenNatuurlijkPersoonAsync(id, null, null, null).Result;
 
             retVal = new Map_IngeschrevenPersoonHal_to_Persoon().Map(brpResult);
 
@@ -55,25 +58,75 @@ namespace BrpApi.Controllers
         [HttpGet("/api/ingeschrevenpersoon/{id}/ouders")]
         public IEnumerable<Persoon> GetOuders(string id)
         {
-            List<Persoon> retVal = new List<Persoon>();
+            List<Persoon> retVal;
             OuderHalCollectie brpSubResults;
 
-            brpSubResults = client.IngeschrevenpersonenBurgerservicenummeroudersAsync(id, null).Result;
+            brpSubResults = bipClient.IngeschrevenpersonenBurgerservicenummeroudersAsync(id, null).Result;
+            retVal = HaalPersoonsgegevensOp(brpSubResults._embedded.Ouders.Select(x => x.Burgerservicenummer));
 
-            int i = 0;
-            foreach (var subResult in brpSubResults._embedded.Ouders)
+            return retVal;
+        }
+
+        // GET: api/IngeschrevenPersoonOuders/5
+        [HttpGet("/api/ingeschrevenpersoon/{id}/kinderen")]
+        public IEnumerable<Persoon> GetKinderen(string id)
+        {
+            List<Persoon> retVal;
+            KindHalCollectie brpSubResults;
+
+            brpSubResults = bipClient.IngeschrevenpersonenBurgerservicenummerkinderenAsync(id, null).Result;
+            retVal = HaalPersoonsgegevensOp(brpSubResults._embedded.Kinderen.Select(x => x.Burgerservicenummer));
+
+            return retVal;
+        }
+
+        // GET: api/IngeschrevenPersoonOuders/5
+        [HttpGet("/api/ingeschrevenpersoon/{id}/partners")]
+        public IEnumerable<Persoon> GetPartners(string id)
+        {
+            List<Persoon> retVal;
+            PartnerHalCollectie brpSubResults;
+
+            brpSubResults = bipClient.IngeschrevenpersonenBurgerservicenummerpartnersAsync(id, null).Result;
+            retVal = HaalPersoonsgegevensOp(brpSubResults._embedded.Partners.Select(x => x.Burgerservicenummer));
+
+            return retVal;
+        }
+
+        // GET: api/IngeschrevenPersoonOuders/5
+        [HttpGet("/api/ingeschrevenpersoon/{id}/medebewoners")]
+        public IEnumerable<Persoon> GetMedebewoners(string id)
+        {
+            List<Persoon> retVal;
+            PartnerHalCollectie brpSubResults;
+
+            brpSubResults = null; //bbpaClient.GetBewoningenAsync//bipClient.IngeschrevenpersonenBurgerservicenummerpartnersAsync(id, null).Result;
+            retVal = HaalPersoonsgegevensOp(brpSubResults._embedded.Partners.Select(x => x.Burgerservicenummer));
+
+            return retVal;
+        }
+
+        private List<Persoon> HaalPersoonsgegevensOp(IEnumerable<string> burgerservicenummers)
+        {
+            List<Persoon> retVal = new List<Persoon>();
+            foreach (var bsn in burgerservicenummers)
             {
                 try
                 {
-                    IngeschrevenPersoonHal ouderPersoon = client.IngeschrevenNatuurlijkPersoonAsync(subResult.Burgerservicenummer, null, null, null).Result;
-                    Persoon ouder = new Map_IngeschrevenPersoonHal_to_Persoon().Map(ouderPersoon);
-                    retVal.Add(ouder);
+                    Persoon kind = HaalGegevensOpUitBrp(bsn);
+                    retVal.Add(kind);
                 }
                 catch (AggregateException e)
                 { };
             }
-
             return retVal;
+        }
+
+        private Persoon HaalGegevensOpUitBrp(string bsn)
+        {
+            IngeschrevenPersoonHal brpPpersoon = bipClient.IngeschrevenNatuurlijkPersoonAsync(bsn, null, null, null).Result;
+            Persoon persoon = new Map_IngeschrevenPersoonHal_to_Persoon().Map(brpPpersoon);
+            return persoon;
         }
     }
 }

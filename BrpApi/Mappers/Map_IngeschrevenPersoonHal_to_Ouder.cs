@@ -1,4 +1,4 @@
-﻿using BrpApi.BevragingIngeschrevenPersoon;
+﻿using BrpApi.BevragingIngeschrevenPersonenClient;
 using BrpApi.Enums;
 using BrpApi.Models;
 using System;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BrpApi.BevragingIngeschrevenPersoon;
+using BrpApi.BevragingIngeschrevenPersonenClient;
 using BrpApi.Enums;
 using BrpApi.Models;
 

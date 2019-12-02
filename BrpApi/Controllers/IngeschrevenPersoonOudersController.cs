@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using BrpApi.BevragingIngeschrevenPersoon;
+using BrpApi.BevragingIngeschrevenPersonenClient;
 using BrpApi.Mappers;
 using BrpApi.Models;
 using Microsoft.AspNetCore.Http;
