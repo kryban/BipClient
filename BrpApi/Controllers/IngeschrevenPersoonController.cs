@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 using BrpApi.BevragingIngeschrevenPersoon;
 using BrpApi.Models;
 using BrpApi.Mappers;
-using Microsoft.AspNetCore.Http;
+//using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+//using System.Web.Http;
 
 namespace BrpApi.Controllers
 {
@@ -25,18 +26,20 @@ namespace BrpApi.Controllers
             this.logger = logger;
             client = new BipClient(new HttpClient());
         }
-        
+
         // GET: api/BevragingIngeschrevenPersoon
         [HttpGet]
         public IEnumerable<string> Get()
         {
             //throw new NotImplementedException();
-            return default;
+            return new List<string> { "default" };
         }
 
         // GET: api/IngeschrevenPersoon/5
-        [HttpGet("{id}", Name = "GetNatuurlijkPersoon")]
-        public Persoon Get(string id)
+        //[HttpGet("{id}", Name = "GetNatuurlijkPersoon")]
+        [HttpGet("/api/ingeschrevenpersoon/{id}")]
+        //[Route("api/ingeschrevenpersoon")]
+        public Persoon GetPersoon(string id)
         {
             Persoon retVal;
             IngeschrevenPersoonHal brpResult;
@@ -44,6 +47,31 @@ namespace BrpApi.Controllers
             brpResult = client.IngeschrevenNatuurlijkPersoonAsync(id, null, null, null).Result;
 
             retVal = new Map_IngeschrevenPersoonHal_to_Persoon().Map(brpResult);
+
+            return retVal;
+        }
+
+        // GET: api/IngeschrevenPersoonOuders/5
+        [HttpGet("/api/ingeschrevenpersoon/{id}/ouders")]
+        public IEnumerable<Persoon> GetOuders(string id)
+        {
+            List<Persoon> retVal = new List<Persoon>();
+            OuderHalCollectie brpSubResults;
+
+            brpSubResults = client.IngeschrevenpersonenBurgerservicenummeroudersAsync(id, null).Result;
+
+            int i = 0;
+            foreach (var subResult in brpSubResults._embedded.Ouders)
+            {
+                try
+                {
+                    IngeschrevenPersoonHal ouderPersoon = client.IngeschrevenNatuurlijkPersoonAsync(subResult.Burgerservicenummer, null, null, null).Result;
+                    Persoon ouder = new Map_IngeschrevenPersoonHal_to_Persoon().Map(ouderPersoon);
+                    retVal.Add(ouder);
+                }
+                catch (AggregateException e)
+                { };
+            }
 
             return retVal;
         }

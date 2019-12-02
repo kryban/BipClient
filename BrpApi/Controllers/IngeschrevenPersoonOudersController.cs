@@ -33,29 +33,29 @@ namespace BrpApi.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        // GET: api/IngeschrevenPersoonOuders/5
-        [HttpGet("{id}", Name = "GetOuders")]
-        public IEnumerable<Models.Ouder> Get(string id)
-        {
-            List<Models.Ouder> retVal = new List<Models.Ouder>();
-            OuderHalCollectie brpSubResults;
+        //// GET: api/IngeschrevenPersoonOuders/5
+        //[HttpGet("{id}", Name = "GetOuders")]
+        //public IEnumerable<Models.Ouder> Get(string id)
+        //{
+        //    List<Models.Ouder> retVal = new List<Models.Ouder>();
+        //    OuderHalCollectie brpSubResults;
 
-            brpSubResults = client.IngeschrevenpersonenBurgerservicenummeroudersAsync(id, null).Result;
+        //    brpSubResults = client.IngeschrevenpersonenBurgerservicenummeroudersAsync(id, null).Result;
 
-            int i = 0;
-            foreach (var subResult in brpSubResults._embedded.Ouders)
-            {
-                try
-                {
-                    IngeschrevenPersoonHal ouderPersoon = client.IngeschrevenNatuurlijkPersoonAsync(subResult.Burgerservicenummer, null, null, null).Result;
-                    Models.Ouder ouder = new Mappers.Map_IngeschrevenPersoonHal_to_Ouder().Map(ouderPersoon, i++);
-                    retVal.Add(ouder);
-                }
-                catch(AggregateException e)
-                { };
-            }
+        //    int i = 0;
+        //    foreach (var subResult in brpSubResults._embedded.Ouders)
+        //    {
+        //        try
+        //        {
+        //            IngeschrevenPersoonHal ouderPersoon = client.IngeschrevenNatuurlijkPersoonAsync(subResult.Burgerservicenummer, null, null, null).Result;
+        //            Models.Ouder ouder = new Mappers.Map_IngeschrevenPersoonHal_to_Ouder().Map(ouderPersoon, i++);
+        //            retVal.Add(ouder);
+        //        }
+        //        catch(AggregateException e)
+        //        { };
+        //    }
 
-            return retVal;
-        }
+        //    return retVal;
+        //}
     }
 }
