@@ -97,13 +97,30 @@ namespace BrpApi.Controllers
         [HttpGet("/api/ingeschrevenpersoon/{id}/medebewoners")]
         public IEnumerable<Persoon> GetMedebewoners(string id)
         {
-            List<Persoon> retVal;
-            PartnerHalCollectie brpSubResults;
+            {
+                List<Persoon> retVal = new List<Persoon>();
 
-            brpSubResults = null; //bbpaClient.GetBewoningenAsync//bipClient.IngeschrevenpersonenBurgerservicenummerpartnersAsync(id, null).Result;
-            retVal = HaalPersoonsgegevensOp(brpSubResults._embedded.Partners.Select(x => x.Burgerservicenummer));
+                IngeschrevenPersoonHal hoofdPersoon;
+                hoofdPersoon = bipClient.IngeschrevenNatuurlijkPersoonAsync(id, null, null, null).Result;
 
-            return retVal;
+
+                BewoningHalCollectie brpSubResults;
+
+                brpSubResults = bbpaClient.GetBewoningenAsync(1, null, null, null, null, null,
+                    hoofdPersoon.Verblijfplaats.Huisnummer, null, null, null, null, hoofdPersoon.Verblijfplaats.Postcode, null, null).Result;
+
+                ICollection<BewoningHal> bewoning = brpSubResults._embedded.Bewoningen;
+                var foo = bewoning.First().Functieadres;
+
+                //foreach(var bewoner in foo)
+                //{
+                //    var bar = bewoner.
+                //}
+
+                //retVal = HaalPersoonsgegevensOp(brpSubResults._embedded.Bewoningen.Select(x => x.Bewoners.Burgerservicenummer));
+
+                return retVal;
+            }
         }
 
         private List<Persoon> HaalPersoonsgegevensOp(IEnumerable<string> burgerservicenummers)
