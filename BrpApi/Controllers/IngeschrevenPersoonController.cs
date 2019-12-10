@@ -100,9 +100,30 @@ namespace BrpApi.Controllers
             List<Persoon> retVal;
             BewoningHalCollectie brpSubResults;
 
-            brpSubResults = bbpaClient.GetBewoningenAsync(null, null, null, null, null, null, 1, null, null, null, null, "2596TW", null, null).Result;
-            retVal = HaalPersoonsgegevensOp(brpSubResults._embedded.Bewoningen.Select(x => x.Burgerservicenummer));
+            IEnumerable<Persoon> kinderen = GetKinderen(id);
+            IEnumerable<Persoon> partners = GetPartners(id);
+            IEnumerable<Persoon> ouders = GetOuders(id);
 
+            brpSubResults = bbpaClient.GetBewoningenAsync(null, null, null, null, null, null, 1, null, null, null, null, "2596TW", null, null).Result;
+            
+            retVal = HaalPersoonsgegevensOp(brpSubResults._embedded.Bewoningen.Select(b => b.Bewoners));
+
+            return retVal;
+        }
+
+        private List<Persoon> HaalPersoonsgegevensOp(IEnumerable<Bewoning> burgerservicenummers)
+        {
+            List<Persoon> retVal = new List<Persoon>();
+            foreach (var bsn in burgerservicenummers)
+            {
+                try
+                {
+                    Persoon kind = HaalGegevensOpUitBrp(bsn);
+                    retVal.Add(kind);
+                }
+                catch (AggregateException e)
+                { };
+            }
             return retVal;
         }
 
