@@ -5,11 +5,9 @@ using System.Threading.Tasks;
 
 namespace Socrates.Models
 {
-    public class Relatie
+    public class Relatie : Persoon
     {
-        public Persoon Persoon { get; set; }
-
-        public Persoon PersoonRelatie { get; set; }
+        public string BsnHoofdklant { get; set; }
 
         public enmSoortRelatie SoortRelatie { get; set; }
     }

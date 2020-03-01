@@ -1,10 +1,4 @@
 ﻿1.
-WELKE NATIONALITEIT MOETEN WE ALS HOOFDNATIONALITEIT BESCHOUWEN ? 
-Nationaliteit is ondergebracht in een verzameling van nationaliteiten. 
-Betekent dit dat er ook 3 nationaliteiten aanwezig kunnen zijn ?
-Is er een volgorde van prioriteit in de nationaliteiten ?
-
-2.
 FUNCTIEADRES ZOU OP NIVEAU VAN BEWONER MOETEN
 Functieadres is nu onderdeel van Bewoning, die geldt voor een adres. 
 GetBewoning kan namelijk niet met bsn bevraagd worden. 
@@ -14,7 +8,7 @@ waarin het als een soortBewoning gepresenteerd zou moeten worden.
 Daarmee kan (in ons geval) meteen herkend worden of wij doelbinding hebben met een persoon, 
 naar aanleiding waarvan we de doelbinding kunnen bepalen.
 
-3. 
+2. 
 BIJ BEWONER ONTBREEKT BSN. 
 Bij Bewoner ontbreekt bsn.
 Bij voorkeur zou je dat terug willen krijgen, omdat we nu alleen op naam en geboortedatum kunnen zoeken. 
@@ -23,9 +17,9 @@ In ons geval kan 1 daarvan kind zijn en de ander een andere relatie.
 Wij moeten dat verschil heel precies kunnen maken, voor het geval dat bijvoorbeel verschil is in de soort bewoning. 
 Kind = postadres terwijl medebewoner inwonend is.
 
-4. 
+3. 
 MEDEBEWONERS: EIGEN API VOOR MEDEBEWONERS NIET ZIJNDE PARTNER/OUDER/KIND
 Scheelt chatty gedrag
 
-5. 
+4. 
 MEDEBEWONERS: EIGEN API VOOR ALLE MEDEBEWONERS (INCLUSIEF FAMILIEBETREKKINGEN)

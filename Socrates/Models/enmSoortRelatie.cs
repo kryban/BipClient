@@ -4,6 +4,7 @@
     {
         kindVan = 0, 
         ouderVan = 1,
-        medebewoner = 2
+        medebewoner = 2,
+        partner = 3
        }
 }
