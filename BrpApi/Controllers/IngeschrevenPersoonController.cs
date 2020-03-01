@@ -58,13 +58,11 @@ namespace BrpApi.Controllers
         [HttpGet("/api/ingeschrevenpersoon/{id}/ouders")]
         public IEnumerable<Persoon> GetOuders(string id)
         {
-            IEnumerable<Persoon> retVal;
+            List<Persoon> retVal;
             OuderHalCollectie brpSubResults;
 
             brpSubResults = bipClient.IngeschrevenpersonenBurgerservicenummeroudersAsync(id, null).Result;
-            IEnumerable<OuderHal> foo = brpSubResults._embedded.Ouders;
-
-            retVal = HaalPersoonsgegevensOp(foo.Select(x => x.Burgerservicenummer));
+            retVal = HaalPersoonsgegevensOp(brpSubResults._embedded.Ouders.Select(x => x.Burgerservicenummer));
 
             return retVal;
         }
@@ -108,7 +106,6 @@ namespace BrpApi.Controllers
 
             brpSubResults = bbpaClient.GetBewoningenAsync(null, null, null, null, null, null, 1, null, null, null, null, "2596TW", null, null).Result;
 
-            //TODO: Bewoning is nog niet geimplementeerd aan BRP Api.
             retVal = null; //HaalPersoonsgegevensOp(brpSubResults._embedded.Bewoningen.Select(b => b.Bewoners));
 
             return retVal;

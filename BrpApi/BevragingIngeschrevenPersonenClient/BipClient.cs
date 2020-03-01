@@ -2738,6 +2738,8 @@ namespace BrpApi.BevragingIngeschrevenPersonenClient
             get { return _additionalProperties; }
             set { _additionalProperties = value; }
         }
+
+
     }
 
     /// <summary>Gegevens over een nationaliteit van de ingeschrevene. 
@@ -2771,6 +2773,8 @@ namespace BrpApi.BevragingIngeschrevenPersonenClient
             get { return _additionalProperties; }
             set { _additionalProperties = value; }
         }
+
+
     }
 
     /// <summary>Een groep van booleans om aan te geven welke gegevens van de nationaliteit in onderzoek zijn. Als een de categorie in onderzoek is worden alle rubrieken binnen die categorie op _true_ gezet. Zie de [functionele specificaties](https://github.com/VNG-Realisatie/Bevragingen-ingeschreven-personen/blob/master/features/in_onderzoek.feature)</summary>
@@ -2800,6 +2804,8 @@ namespace BrpApi.BevragingIngeschrevenPersonenClient
             get { return _additionalProperties; }
             set { _additionalProperties = value; }
         }
+
+
     }
 
     /// <summary>

@@ -1,4 +1,4 @@
-﻿@model Socrates.Models.aggrBrpPersoon
+﻿@model Socrates.Models.Persoon
 
 @{
     ViewData["Title"] = "Persoon";
@@ -11,10 +11,10 @@
     }
 </script>
 
-<h1>Persoon uit aggegraat</h1>
+<h1>Persoon</h1>
 
 
-@using (Html.BeginForm("ZoekPersoonMetRelaties", "Home", FormMethod.Post))
+@using (Html.BeginForm("ZoekPersoon", "Home", FormMethod.Post))
 {
     <form>
         <div>
@@ -34,102 +34,102 @@
         <hr />
         <dl class="row">
             <dt class="col-3">
-                @Html.DisplayNameFor(model => model.Hoofdpersoon.Burgerservicenummer)
+                @Html.DisplayNameFor(model => model.Burgerservicenummer)
             </dt>
             <dd class="col-9">
-                @Html.DisplayFor(model => model.Hoofdpersoon.Burgerservicenummer)
+                @Html.DisplayFor(model => model.Burgerservicenummer)
             </dd>
             <dt class="col-3">
-                @Html.DisplayNameFor(model => model.Hoofdpersoon.Naam)
+                @Html.DisplayNameFor(model => model.Naam)
             </dt>
             <dd class="col-9">
-                @Html.DisplayFor(model => model.Hoofdpersoon.Naam)
+                @Html.DisplayFor(model => model.Naam)
             </dd>
             <dt class="col-3">
-                @Html.DisplayNameFor(model => model.Hoofdpersoon.Voorvoegsels)
+                @Html.DisplayNameFor(model => model.Voorvoegsels)
             </dt>
             <dd class="col-9">
-                @Html.DisplayFor(model => model.Hoofdpersoon.Voorvoegsels)
+                @Html.DisplayFor(model => model.Voorvoegsels)
             </dd>
             <dt class="col-3">
-                @Html.DisplayNameFor(model => model.Hoofdpersoon.Voorletters)
+                @Html.DisplayNameFor(model => model.Voorletters)
             </dt>
             <dd class="col-9">
-                @Html.DisplayFor(model => model.Hoofdpersoon.Voorletters)
+                @Html.DisplayFor(model => model.Voorletters)
             </dd>
             <dt class="col-3">
-                @Html.DisplayNameFor(model => model.Hoofdpersoon.Voornamen)
+                @Html.DisplayNameFor(model => model.Voornamen)
             </dt>
             <dd class="col-9">
-                @Html.DisplayFor(model => model.Hoofdpersoon.Voornamen)
+                @Html.DisplayFor(model => model.Voornamen)
             </dd>
             <dt class="col-3">
-                @Html.DisplayNameFor(model => model.Hoofdpersoon.Geslacht)
+                @Html.DisplayNameFor(model => model.Geslacht)
             </dt>
             <dd class="col-9">
-                @Html.DisplayFor(model => model.Hoofdpersoon.Geslacht)
+                @Html.DisplayFor(model => model.Geslacht)
             </dd>
             @*<dt class="col-3">
-                @Html.DisplayNameFor(model => model.Hoofdpersoon.DatumGeboorteBevolking)
+                @Html.DisplayNameFor(model => model.DatumGeboorteBevolking)
             </dt>
             <dd class="col-3">
-                @Html.DisplayFor(model => model.Hoofdpersoon.DatumGeboorteBevolking)
+                @Html.DisplayFor(model => model.DatumGeboorteBevolking)
             </dd>*@
             <dt class="col-3">
-                @Html.DisplayNameFor(model => model.Hoofdpersoon.DatumGeboorte)
+                @Html.DisplayNameFor(model => model.DatumGeboorte)
             </dt>
             <dd class="col-9">
-                @Html.DisplayFor(model => model.Hoofdpersoon.DatumGeboorte)
+                @Html.DisplayFor(model => model.DatumGeboorte)
             </dd>
             <dt class="col-3">
-                @Html.DisplayNameFor(model => model.Hoofdpersoon.DatumOverlijden)
+                @Html.DisplayNameFor(model => model.DatumOverlijden)
             </dt>
             <dd class="col-9">
-                @Html.DisplayFor(model => model.Hoofdpersoon.DatumOverlijden)
+                @Html.DisplayFor(model => model.DatumOverlijden)
             </dd>
             <dt class="col-3">
-                @Html.DisplayNameFor(model => model.Hoofdpersoon.Geboorteland)
+                @Html.DisplayNameFor(model => model.Geboorteland)
             </dt>
             <dd class="col-9">
-                @Html.DisplayFor(model => model.Hoofdpersoon.Geboorteland)
+                @Html.DisplayFor(model => model.Geboorteland)
             </dd>
             <dt class="col-3">
-                @Html.DisplayNameFor(model => model.Hoofdpersoon.Nationaliteit1)
+                @Html.DisplayNameFor(model => model.Nationaliteit1)
             </dt>
             <dd class="col-9">
-                @Html.DisplayFor(model => model.Hoofdpersoon.Nationaliteit1)
+                @Html.DisplayFor(model => model.Nationaliteit1)
             </dd>
             <dt class="col-3">
-                @Html.DisplayNameFor(model => model.Hoofdpersoon.Nationaliteit2)
+                @Html.DisplayNameFor(model => model.Nationaliteit2)
             </dt>
             <dd class="col-9">
-                @Html.DisplayFor(model => model.Hoofdpersoon.Nationaliteit2)
+                @Html.DisplayFor(model => model.Nationaliteit2)
             </dd>
             <dt class="col-3">
-                @Html.DisplayNameFor(model => model.Hoofdpersoon.Geheim)
+                @Html.DisplayNameFor(model => model.Geheim)
             </dt>
             <dd class="col-9">
-                @Html.DisplayFor(model => model.Hoofdpersoon.Geheim)
+                @Html.DisplayFor(model => model.Geheim)
             </dd>
             <dt class="col-3">
-                @Html.DisplayNameFor(model => model.Hoofdpersoon.Aanhef)
+                @Html.DisplayNameFor(model => model.Aanhef)
             </dt>
             <dd class="col-9">
-                @Html.DisplayFor(model => model.Hoofdpersoon.Aanhef)
+                @Html.DisplayFor(model => model.Aanhef)
             </dd>
             <dt class="col-3">
-                @Html.DisplayNameFor(model => model.Hoofdpersoon.Aanschrijfwijze)
+                @Html.DisplayNameFor(model => model.Aanschrijfwijze)
             </dt>
             <dd class="col-9">
-                @Html.DisplayFor(model => model.Hoofdpersoon.Aanschrijfwijze)
+                @Html.DisplayFor(model => model.Aanschrijfwijze)
             </dd>
         </dl>
     </div>
     <div id="relaties">
-
+        foo @*@Html.Partial("ZoekOuders");*@
     </div>
 </div>
 @*<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = model.Hoofdpersoon.PrimaryKey */ }) |
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="Index">Back to List</a>
 </div>*@
